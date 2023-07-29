@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class ShowOnMobile : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject mobileController;
+
+    private void Awake()
     {
-        gameObject.SetActive(Application.isMobilePlatform);
+        if (Application.isMobilePlatform)
+        {
+            mobileController.SetActive(true);
+        }
     }
 }
