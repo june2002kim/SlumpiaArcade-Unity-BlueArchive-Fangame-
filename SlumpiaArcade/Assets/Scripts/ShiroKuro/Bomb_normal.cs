@@ -6,7 +6,7 @@ public class Bomb_normal : MonoBehaviour
 {
     [Header("Bomb Settings")]
     [SerializeField] private float warnDuration = 3f;
-    [SerializeField] private float effectDuration = 0.01f;
+    [SerializeField] private float effectDuration = 0.02f;
 
     public GameObject warningCircle;
 

@@ -7,12 +7,12 @@ public class PlayerMovement_SK : MonoBehaviour
 {
     public static PlayerMovement_SK instance;
 
-    private Rigidbody2D _rigidbody;
+    public Rigidbody2D _rigidbody;
     private InputProvider _inputProvider;
 
-    private bool isDead;
-    private bool isSlowed;
-    private bool isStunned;
+    //private bool isDead;
+    public bool isSlowed;
+    public bool isStunned;
 
     [SerializeField] float moveSpeed = 8f;
     [SerializeField] float slowmoveSpeed = 4f;
@@ -31,6 +31,7 @@ public class PlayerMovement_SK : MonoBehaviour
     private bool canShield;
 
     [Header("CrowdControl Settings")]
+    [SerializeField] float ImmortalTime = 1f;
     [SerializeField] float slowDuration = 2f;
     [SerializeField] float stunDuration = 3f;
 
@@ -67,7 +68,7 @@ public class PlayerMovement_SK : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        isDead = false;
+        //isDead = false;
         isSlowed = false;
         isStunned = false;
         isDashing = false;
@@ -79,7 +80,7 @@ public class PlayerMovement_SK : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isDashing || isDead || isStunned)
+        if (isDashing || GameManager_SK.instance.isGameOver || isStunned)
         {
             return;
         }
@@ -96,26 +97,12 @@ public class PlayerMovement_SK : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (this.tag != "Immortal" && !isDead)
+        if (this.tag != "Immortal" && !GameManager_SK.instance.isGameOver)
         {
             if (collision.tag == "Enemy")
             {
-                isDead = true;
-                _rigidbody.velocity = Vector2.zero;
-                GameManager_SK.instance.OnPlayerDead();
-            }
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (this.tag != "Immortal" && !isDead)
-        {
-            if (collision.tag == "Enemy")
-            {
-                isDead = true;
-                _rigidbody.velocity = Vector2.zero;
-                GameManager_SK.instance.OnPlayerDead();
+                GameManager_SK.instance.OnPlayerDamaged();
+                StartCoroutine("Immortal");
             }
 
             if (collision.tag == "Slow")
@@ -128,17 +115,81 @@ public class PlayerMovement_SK : MonoBehaviour
             {
                 //Debug.Log("is Stunned");
                 isStunned = true;
+                _rigidbody.velocity = Vector2.zero;
                 StartCoroutine("Stun");
             }
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (this.tag != "Immortal" && !GameManager_SK.instance.isGameOver)
+        {
+            if (collision.tag == "Enemy")
+            {
+                GameManager_SK.instance.OnPlayerDamaged();
+                StartCoroutine("Immortal");
+            }
+
+            if (collision.tag == "Slow")
+            {
+                //Debug.Log("is Slowed");
+                isSlowed = true;
+            }
+
+            if (collision.tag == "Stun")
+            {
+                //Debug.Log("is Stunned");
+                isStunned = true;
+                _rigidbody.velocity = Vector2.zero;
+                StartCoroutine("Stun");
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (this.tag != "Immortal" && !GameManager_SK.instance.isGameOver)
+        {
+            if (collision.tag == "Enemy")
+            {
+                GameManager_SK.instance.OnPlayerDamaged();
+                StartCoroutine("Immortal");
+            }
+
+            if (collision.tag == "Slow")
+            {
+                //Debug.Log("is Slowed");
+                isSlowed = true;
+            }
+
+            if (collision.tag == "Stun")
+            {
+                //Debug.Log("is Stunned");
+                isStunned = true;
+                _rigidbody.velocity = Vector2.zero;
+                StartCoroutine("Stun");
+            }
+        }
+    }
+
+    private IEnumerator Immortal()
+    {
+        this.tag = "Immortal";
+        yield return new WaitForSeconds(ImmortalTime);
+        this.tag = "Player";
+    }
+
     private void startDash(InputAction.CallbackContext context)
     {
-        if (canDash && !isDead)
+        if (canDash && !GameManager_SK.instance.isGameOver && !isStunned && !GameManager_SK.instance.isPaused)
         {
             StartCoroutine("Dash");
-        } 
+        }
+        if (GameManager_SK.instance.isGameOver)
+        {
+            GameManager_SK.instance.restartGame();
+        }
     }
 
     private IEnumerator Dash()
@@ -157,7 +208,7 @@ public class PlayerMovement_SK : MonoBehaviour
 
     private void startShield(InputAction.CallbackContext context)
     {
-        if (canShield && !isDead)
+        if (canShield && !GameManager_SK.instance.isGameOver && !GameManager_SK.instance.isPaused)
         {
             StartCoroutine("Shield");
         }
@@ -165,7 +216,7 @@ public class PlayerMovement_SK : MonoBehaviour
 
     private IEnumerator Shield()
     {
-        //Debug.Log("Shield ON");
+        Debug.Log("Shield ON");
         gameObject.tag = "Immortal";
         canShield = false;
         yield return new WaitForSeconds(shieldDuration);
@@ -174,14 +225,14 @@ public class PlayerMovement_SK : MonoBehaviour
         canShield = true;
     }
 
-    private IEnumerator Slow()
+    public IEnumerator Slow()
     {
         yield return new WaitForSeconds(slowDuration);
         currentSpeed = moveSpeed;
         isSlowed = false;
     }
 
-    private IEnumerator Stun()
+    public IEnumerator Stun()
     {
         yield return new WaitForSeconds(stunDuration);
         isStunned = false;

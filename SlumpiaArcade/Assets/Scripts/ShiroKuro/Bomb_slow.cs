@@ -6,10 +6,9 @@ public class Bomb_slow : MonoBehaviour
 {
     [Header("Bomb Settings")]
     [SerializeField] private float warnDuration = 3f;
-    [SerializeField] private float effectDuration = 0.01f;
+    [SerializeField] private float effectDuration = 0.02f;
 
     public GameObject warningCircle;
-
 
     private void OnEnable()
     {

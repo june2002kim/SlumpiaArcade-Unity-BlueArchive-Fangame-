@@ -16,19 +16,24 @@ public class ObstacleManager_SK : MonoBehaviour
 
     [Header("Spawner Settings")]
     [SerializeField] private int KuroShootCount;
-    [SerializeField] private float KuroSpawnDelay = 5f;
+    [SerializeField] private int KuroShootSet;
+    [SerializeField] private float KuroSpawnDelay;
+    [SerializeField] private float KuroSpawnDelaySet = 5f;
     private int KurospawnCount = 24;
     private bool KurocanShoot;
 
     [SerializeField] private int ShiroShootCount;
-    [SerializeField] private float ShiroSpawnDelay = 40f;
+    [SerializeField] private float ShiroSpawnDelay;
+    [SerializeField] private float ShiroSpawnDelaySet = 40f;
     private int ShirospawnCount = 3;
     private bool ShirocanShoot;
     private bool ShirocanLaunch;
-    [SerializeField] private float ShiroLaunchDelay = 7f;
+    [SerializeField] private float ShiroLaunchDelay;
+    [SerializeField] private float ShiroLaunchDelaySet = 7f;
 
     [Header("Spawn Interval Settings")]
-    [SerializeField] private float newPatternInterval = 5f;
+    [SerializeField] private float newPatternInterval = 2f;
+    private float firstSpawnDelay = 1f;
     private float lastUpdatedTime;
 
     private Vector2 poolPositionWest = new Vector2(-7, -4);
@@ -49,12 +54,20 @@ public class ObstacleManager_SK : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        KuroShootCount = 3;
+        KuroShootSet = 3;
+        KuroShootCount = KuroShootSet;
         KurocanShoot = true;
 
         ShiroShootCount = 2;
         ShirocanShoot = true;
         ShirocanLaunch = true;
+
+        ShiroTrigger = false;
+        KuroTrigger = false;
+
+        KuroSpawnDelay = KuroSpawnDelaySet;
+        ShiroSpawnDelay = ShiroSpawnDelaySet;
+        ShiroLaunchDelay = ShiroLaunchDelaySet;
 
         lastUpdatedTime = Time.time;
 
@@ -91,6 +104,11 @@ public class ObstacleManager_SK : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager_SK.instance.isGameOver)
+        {
+            return;
+        }
+
         if(Time.time >= lastUpdatedTime + newPatternInterval)
         {
             if (!ShiroTrigger)
@@ -116,31 +134,40 @@ public class ObstacleManager_SK : MonoBehaviour
                         }
                         else
                         {
-                            if (ShiroBombLauncherPrefab.normalBombCnt < 6f)
+                            if (ShiroBombLauncher.normalBomb < 6)
                             {
-                                ShiroBombLauncherPrefab.normalBombCnt++;
+                                //Debug.Log("Normal Bomb Added : " + ShiroBombLauncher.normalBomb);
+                                ShiroBombLauncher.normalBomb++;
+                                lastUpdatedTime = Time.time;
                             }
-                            else if (ShiroBombLauncherPrefab.slowBombCnt < 3f)
+                            else if (ShiroBombLauncher.slowBomb < 3)
                             {
-                                ShiroBombLauncherPrefab.slowBombCnt++;
+                                //Debug.Log("Slow Bomb Added : " + ShiroBombLauncher.slowBomb);
+                                ShiroBombLauncher.slowBomb++;
+                                lastUpdatedTime = Time.time;
                             }
-                            if (ShiroBombLauncherPrefab.homingBombCnt < 2f)
+                            else if (ShiroBombLauncher.homingBomb < 2)
                             {
-                                ShiroBombLauncherPrefab.homingBombCnt++;
+                                //Debug.Log("Homing Bomb Added : " + ShiroBombLauncher.homingBomb);
+                                ShiroBombLauncher.homingBomb++;
+                                lastUpdatedTime = Time.time;
                             }
                             else
                             {
-                                if (ShiroLaunchDelay > 4f)
+                                if (ShiroLaunchDelay > 3f)
                                 {
                                     ShiroLaunchDelay--;
+                                    lastUpdatedTime = Time.time;
                                 }
-                                else if (ShiroSpawnDelay > 11f)
+                                else if (ShiroSpawnDelay > 5f)
                                 {
                                     ShiroSpawnDelay--;
+                                    lastUpdatedTime = Time.time;
                                 }
-                                else if (KuroSpawnDelay > 3f)
+                                else if (KuroSpawnDelay > 2f)
                                 {
                                     KuroSpawnDelay--;
+                                    lastUpdatedTime = Time.time;
                                 }
                             }
                         }
@@ -219,6 +246,7 @@ public class ObstacleManager_SK : MonoBehaviour
     {
         ShirocanLaunch = false;
 
+        yield return new WaitForSeconds(firstSpawnDelay);
         ShiroBombLauncher.Launch();
         //Debug.Log("Shiro Launched Bomb");
 

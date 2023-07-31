@@ -47,6 +47,12 @@ MonoBehaviour:
   - {fileID: 3828939926387773925, guid: a82476dd7d7057c49a0b01b648af9290, type: 3}
   - {fileID: 3828939926387773925, guid: 68a51ded972930b4d8f9dca7f71058a0, type: 3}
   - {fileID: 3828939926387773925, guid: c971476c2b26dba43951385c61e7ae7d, type: 3}
-  normalBombCnt: 4
-  slowBombCnt: 1
-  homingBombCnt: 1
+  normalBomb: 6
+  slowBomb: 3
+  homingBomb: 2
+  normalBombCnt: 6
+  slowBombCnt: 3
+  homingBombCnt: 2
+  normalBombSet: 4
+  slowBombSet: 1
+  homingBombSet: 1

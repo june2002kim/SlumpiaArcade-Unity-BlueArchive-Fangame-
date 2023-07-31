@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   warnDuration: 3
+  effectDuration: 0.02
   warningCircle: {fileID: 3828939926214018880}
 --- !u!1001 &9182430564989237966
 PrefabInstance:

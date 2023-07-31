@@ -7,10 +7,18 @@ public class BombLauncher : MonoBehaviour
     public GameObject[] bombPrefabs;
     private GameObject[] bombs;
 
+    public int normalBomb;
+    public int slowBomb;
+    public int homingBomb;
+
     [Header("Bomb Settings")]
-    [SerializeField] public int normalBombCnt = 4;
-    [SerializeField] public int slowBombCnt = 1;
-    [SerializeField] public int homingBombCnt = 1;
+    [SerializeField] public int normalBombCnt = 6;
+    [SerializeField] public int slowBombCnt = 3;
+    [SerializeField] public int homingBombCnt = 2;
+
+    [SerializeField] public int normalBombSet = 4;
+    [SerializeField] public int slowBombSet = 1;
+    [SerializeField] public int homingBombSet = 1;
 
     private Vector2 poolPosition = new Vector2(20, -20);
 
@@ -18,6 +26,10 @@ public class BombLauncher : MonoBehaviour
     void Start()
     {
         bombs = new GameObject[normalBombCnt + slowBombCnt + homingBombCnt];
+
+        normalBomb = normalBombSet;
+        slowBomb = slowBombSet;
+        homingBomb = homingBombSet;
 
         for (int i = 0; i < normalBombCnt; i++)
         {
@@ -31,7 +43,6 @@ public class BombLauncher : MonoBehaviour
         {
             bombs[i] = Instantiate(bombPrefabs[2], poolPosition, Quaternion.identity);
         }
-
     }
 
     // Update is called once per frame
@@ -42,21 +53,21 @@ public class BombLauncher : MonoBehaviour
 
     public void Launch()
     {
-        for (int i = 0; i < normalBombCnt; i++)
+        for (int i = 0; i < normalBomb; i++)
         {
             bombs[i].transform.position = new Vector2(Random.Range(-5f, 5f), Random.Range(-5f, 5f));
 
             bombs[i].SetActive(false);
             bombs[i].SetActive(true);
         }
-        for (int i = normalBombCnt; i < normalBombCnt + slowBombCnt; i++)
+        for (int i = normalBombCnt; i < normalBombCnt + slowBomb; i++)
         {
             bombs[i].transform.position = new Vector2(Random.Range(-5f, 5f), Random.Range(-5f, 5f));
 
             bombs[i].SetActive(false);
             bombs[i].SetActive(true);
         }
-        for (int i = normalBombCnt + slowBombCnt; i < normalBombCnt + slowBombCnt + homingBombCnt; i++)
+        for (int i = normalBombCnt + slowBombCnt; i < normalBombCnt + slowBombCnt + homingBomb; i++)
         {
             bombs[i].transform.position = PlayerMovement_SK.instance.transform.position;
 
