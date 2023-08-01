@@ -9,10 +9,15 @@ public class PlayerMovement_SK : MonoBehaviour
 
     public Rigidbody2D _rigidbody;
     private InputProvider _inputProvider;
+    private SpriteRenderer _spriteRenderer;
+
+    public GameObject shield;
+    public GameObject shieldUI;
 
     //private bool isDead;
     public bool isSlowed;
     public bool isStunned;
+    private bool isFacingRight;
 
     [SerializeField] float moveSpeed = 8f;
     [SerializeField] float slowmoveSpeed = 4f;
@@ -53,6 +58,7 @@ public class PlayerMovement_SK : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (instance == null)
         {
@@ -71,11 +77,22 @@ public class PlayerMovement_SK : MonoBehaviour
         //isDead = false;
         isSlowed = false;
         isStunned = false;
+        isFacingRight = false;
         isDashing = false;
         canDash = true;
         canShield = true;
 
-        currentSpeed = moveSpeed;
+        dashCooldown = PlayerPrefs.GetFloat("dashCooldownSet");
+        dashDuration = PlayerPrefs.GetFloat("dashDurationSet");
+        dashSpeed = PlayerPrefs.GetFloat("dashSpeedSet");
+
+        shieldCooldown = PlayerPrefs.GetFloat("shieldCooldownSet");
+
+        currentSpeed = PlayerPrefs.GetFloat("moveSpeedSet");
+
+        ImmortalTime = PlayerPrefs.GetFloat("ImmortalTimeSet");
+
+        shieldUI.GetComponent<Animator>().speed = 0.9f / shieldCooldown;
     }
 
     private void FixedUpdate()
@@ -90,9 +107,10 @@ public class PlayerMovement_SK : MonoBehaviour
             currentSpeed = slowmoveSpeed;
             StartCoroutine("Slow");
         }
-
+        
         _rigidbody.velocity = _inputProvider.MovementInput() * currentSpeed;
 
+        Flip();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -173,10 +191,22 @@ public class PlayerMovement_SK : MonoBehaviour
         }
     }
 
+    private void Flip()
+    {
+        if((_inputProvider.MovementInput().x > 0 && !isFacingRight) || (_inputProvider.MovementInput().x < 0 && isFacingRight)){
+            isFacingRight = !isFacingRight;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1;
+            transform.localScale = localScale;
+        }
+    }
+
     private IEnumerator Immortal()
     {
         this.tag = "Immortal";
+        _spriteRenderer.color = new Color32(255, 255, 255, 100);
         yield return new WaitForSeconds(ImmortalTime);
+        _spriteRenderer.color = new Color32(255, 255, 255, 255);
         this.tag = "Player";
     }
 
@@ -195,7 +225,10 @@ public class PlayerMovement_SK : MonoBehaviour
     private IEnumerator Dash()
     {
         //Debug.Log("Dashed");
-        gameObject.tag = "Immortal";
+        if(PlayerPrefs.GetInt("isImmortalDash") == 1)
+        {
+            gameObject.tag = "Immortal";
+        }
         canDash = false;
         isDashing = true;
         _rigidbody.velocity = _inputProvider.MovementInput() * dashSpeed;
@@ -216,13 +249,22 @@ public class PlayerMovement_SK : MonoBehaviour
 
     private IEnumerator Shield()
     {
-        Debug.Log("Shield ON");
+        //Debug.Log("Shield ON");
         gameObject.tag = "Immortal";
+        shield.SetActive(true);
+        
         canShield = false;
+        shieldUI.GetComponent<Animator>().SetBool("isUsed", !canShield);
+
         yield return new WaitForSeconds(shieldDuration);
+
         gameObject.tag = "Player";
+        shield.SetActive(false);
+
         yield return new WaitForSeconds(shieldCooldown);
+
         canShield = true;
+        shieldUI.GetComponent<Animator>().SetBool("isUsed", !canShield);
     }
 
     public IEnumerator Slow()

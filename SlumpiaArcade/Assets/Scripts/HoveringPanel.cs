@@ -6,10 +6,12 @@ using UnityEngine.EventSystems;
 public class HoveringPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public GameObject hoverPanel;
+    public Dialogue dialogue;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        hoverPanel.SetActive(true);
+        FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+        //hoverPanel.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)

@@ -13,6 +13,7 @@ public class GameManager_SK : MonoBehaviour
     public bool isPaused;
     public bool isPaneled;
 
+    private int hitDamage;
     private float score;
 
     public GameObject gameplayUI;
@@ -25,8 +26,10 @@ public class GameManager_SK : MonoBehaviour
     public TMP_Text healthText;
 
     [Header("Standard Settings")]
-    [SerializeField] private int HealthPointSet = 3;
+    //[SerializeField] private int HealthPointSet = 3;
+    [SerializeField] private float healthRegenCooldown = 45f;
     private int hp;
+    private float recentHitTime;
 
     private Rigidbody2D playerRigidbody;
 
@@ -53,8 +56,19 @@ public class GameManager_SK : MonoBehaviour
 
         score = 0;
 
-        hp = HealthPointSet;
-        healthText.text = "Life : x" + hp;
+        hp = PlayerPrefs.GetInt("healthPointSet");
+        healthText.text = "" + hp;
+
+        recentHitTime = Time.time;
+
+        if (PlayerPrefs.GetInt("isHealthRegen") == 1)
+        {
+            hitDamage = 2;
+        }
+        else
+        {
+            hitDamage = 1;
+        }
     }
 
     // Update is called once per frame
@@ -64,9 +78,6 @@ public class GameManager_SK : MonoBehaviour
         {
             return;
         }
-        score += Time.deltaTime;
-        currentScore.text = "";
-        currentScore.text += score;
 
         if (Input.GetButtonDown("Cancel"))
         {
@@ -84,6 +95,23 @@ public class GameManager_SK : MonoBehaviour
             else
             {
                 pauseGame();
+            }
+        }
+
+        score += Time.deltaTime;
+        currentScore.text = "";
+        currentScore.text += score;
+
+        if(PlayerPrefs.GetInt("isHealthRegen") == 1)
+        {
+            if(hp < PlayerPrefs.GetInt("healthPointSet"))
+            {
+                if(Time.time >= recentHitTime + healthRegenCooldown)
+                {
+                    recentHitTime = Time.time;
+                    hp++;
+                    healthText.text = "" + hp;
+                }
             }
         }
     }
@@ -111,10 +139,12 @@ public class GameManager_SK : MonoBehaviour
 
     public void OnPlayerDamaged()
     {
-        hp--;
-        healthText.text = "Life : x" + hp;
+        hp = hp - hitDamage;
+        healthText.text = "" + hp;
 
-        if (hp == 0)
+        recentHitTime = Time.time;
+
+        if (hp <= 0)
         {
             OnPlayerDead();
         }

@@ -33,15 +33,15 @@ public class BombLauncher : MonoBehaviour
 
         for (int i = 0; i < normalBombCnt; i++)
         {
-            bombs[i] = Instantiate(bombPrefabs[0], poolPosition, Quaternion.identity);
+            bombs[i] = Instantiate(bombPrefabs[0], poolPosition, Quaternion.Euler(0,0,Random.Range(0, 360)));
         }
         for (int i = normalBombCnt; i < normalBombCnt + slowBombCnt; i++)
         {
-            bombs[i] = Instantiate(bombPrefabs[1], poolPosition, Quaternion.identity);
+            bombs[i] = Instantiate(bombPrefabs[1], poolPosition, Quaternion.Euler(0, 0, Random.Range(0, 360)));
         }
         for (int i = normalBombCnt + slowBombCnt; i < normalBombCnt + slowBombCnt + homingBombCnt; i++)
         {
-            bombs[i] = Instantiate(bombPrefabs[2], poolPosition, Quaternion.identity);
+            bombs[i] = Instantiate(bombPrefabs[2], poolPosition, Quaternion.Euler(0, 0, Random.Range(0, 360)));
         }
     }
 

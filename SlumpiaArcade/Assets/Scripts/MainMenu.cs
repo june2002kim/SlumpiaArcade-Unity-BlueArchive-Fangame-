@@ -14,6 +14,7 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1;
         shirokuroRecord.text = "" + PlayerPrefs.GetFloat("ShiroKuroRecord");
         gozRecord.text = "" + PlayerPrefs.GetFloat("GozRecord");
     }
@@ -30,11 +31,13 @@ public class MainMenu : MonoBehaviour
 
     public void startShiroKuro()
     {
+        //Time.timeScale = 1;
         SceneManager.LoadScene("ShiroKuro");
     }
 
     public void startGoz()
     {
+        //Time.timeScale = 1;
         SceneManager.LoadScene("Goz");
     }
 }
