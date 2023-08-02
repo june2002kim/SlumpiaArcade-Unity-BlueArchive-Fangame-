@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System;
 
 public class GameManager_SK : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class GameManager_SK : MonoBehaviour
     //[SerializeField] private int HealthPointSet = 3;
     [SerializeField] private float healthRegenCooldown = 45f;
     private int hp;
+    private float startTime;
     private float recentHitTime;
 
     private Rigidbody2D playerRigidbody;
@@ -59,6 +61,7 @@ public class GameManager_SK : MonoBehaviour
         hp = PlayerPrefs.GetInt("healthPointSet");
         healthText.text = "" + hp;
 
+        startTime = Time.time;
         recentHitTime = Time.time;
 
         if (PlayerPrefs.GetInt("isHealthRegen") == 1)
@@ -98,9 +101,9 @@ public class GameManager_SK : MonoBehaviour
             }
         }
 
-        score += Time.deltaTime;
+        score = Time.time - startTime;
         currentScore.text = "";
-        currentScore.text += score;
+        currentScore.text += System.Math.Round(score, 3);
 
         if(PlayerPrefs.GetInt("isHealthRegen") == 1)
         {
