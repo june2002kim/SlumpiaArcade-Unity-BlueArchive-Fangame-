@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu_SK : MonoBehaviour
 {
     public GameObject soundPanel;
-    public GameObject tutorialPanel;
+    public GameObject abilityPanel;
 
     public void loadPanel()
     {
@@ -16,6 +16,11 @@ public class PauseMenu_SK : MonoBehaviour
     public void returnMain()
     {
         SceneManager.LoadScene("Main");
+    }
+
+    public void restartGame()
+    {
+        SceneManager.LoadScene("ShiroKuro");
     }
 
     public void quitGame()

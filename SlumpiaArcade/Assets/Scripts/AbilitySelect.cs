@@ -12,6 +12,7 @@ public class AbilitySelect : MonoBehaviour
     {
         toggleGroup = GetComponent<ToggleGroup>();
 
+        /*
         PlayerPrefs.SetInt("healthPointSet", 3);
         PlayerPrefs.SetInt("isHealthRegen", 0);
 
@@ -25,6 +26,7 @@ public class AbilitySelect : MonoBehaviour
         PlayerPrefs.SetFloat("moveSpeedSet", 8f);
 
         PlayerPrefs.SetFloat("ImmortalTimeSet", 1f);
+        */
     }
 
     

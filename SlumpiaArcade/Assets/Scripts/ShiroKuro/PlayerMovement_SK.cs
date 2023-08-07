@@ -10,6 +10,7 @@ public class PlayerMovement_SK : MonoBehaviour
     public Rigidbody2D _rigidbody;
     private InputProvider _inputProvider;
     private SpriteRenderer _spriteRenderer;
+    public AudioSource _audioSource;
 
     public GameObject shield;
     public GameObject shieldUI;
@@ -40,6 +41,11 @@ public class PlayerMovement_SK : MonoBehaviour
     [SerializeField] float slowDuration = 2f;
     [SerializeField] float stunDuration = 3f;
 
+    [Header("Audio Clip")]
+    public AudioClip DashAudioClip;
+    public AudioClip ShieldAudioClip;
+    public AudioClip HitAudioClip;
+
     private void OnEnable()
     {
         _inputProvider = new InputProvider();
@@ -59,6 +65,7 @@ public class PlayerMovement_SK : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _audioSource = GetComponent<AudioSource>();
 
         if (instance == null)
         {
@@ -225,6 +232,10 @@ public class PlayerMovement_SK : MonoBehaviour
     private IEnumerator Dash()
     {
         //Debug.Log("Dashed");
+        _audioSource.clip = DashAudioClip;
+        _audioSource.Play();
+
+
         if(PlayerPrefs.GetInt("isImmortalDash") == 1)
         {
             gameObject.tag = "Immortal";
@@ -250,6 +261,9 @@ public class PlayerMovement_SK : MonoBehaviour
     private IEnumerator Shield()
     {
         //Debug.Log("Shield ON");
+        _audioSource.clip = ShieldAudioClip;
+        _audioSource.Play();
+
         gameObject.tag = "Immortal";
         shield.SetActive(true);
         

@@ -34,6 +34,9 @@ public class GameManager_SK : MonoBehaviour
     private float recentHitTime;
 
     private Rigidbody2D playerRigidbody;
+    private AudioSource playerAudiosource;
+    private AudioSource gameAudiosource;
+    private AudioClip playerHitClip;
 
     private void Awake()
     {
@@ -51,6 +54,10 @@ public class GameManager_SK : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
+
+        gameAudiosource = GetComponent<AudioSource>();
+
         isGameOver = false;
 
         isPaused = false;
@@ -142,6 +149,10 @@ public class GameManager_SK : MonoBehaviour
 
     public void OnPlayerDamaged()
     {
+        playerAudiosource = FindObjectOfType<PlayerMovement_SK>()._audioSource;
+        playerAudiosource.clip = FindObjectOfType<PlayerMovement_SK>().HitAudioClip;
+        playerAudiosource.Play();
+
         hp = hp - hitDamage;
         healthText.text = "" + hp;
 
@@ -162,6 +173,8 @@ public class GameManager_SK : MonoBehaviour
     {
         Time.timeScale = 0;
         isPaused = true;
+        gameAudiosource.Pause();
+
         gamepauseUI.SetActive(true);
     }
 
@@ -169,6 +182,8 @@ public class GameManager_SK : MonoBehaviour
     {
         Time.timeScale = 1;
         isPaused = false;
+        gameAudiosource.Play();
+
         FindObjectOfType<PauseMenu_SK>().gameObject.SetActive(false);
     }
 }

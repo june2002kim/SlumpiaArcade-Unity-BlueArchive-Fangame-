@@ -18,18 +18,18 @@ public class ObstacleManager_SK : MonoBehaviour
     [SerializeField] private int KuroShootCount;
     [SerializeField] private int KuroShootSet;
     [SerializeField] private float KuroSpawnDelay;
-    [SerializeField] private float KuroSpawnDelaySet = 5f;
+    //[SerializeField] private float KuroSpawnDelaySet = 5f;
     private int KurospawnCount = 24;
     private bool KurocanShoot;
 
     [SerializeField] private int ShiroShootCount;
     [SerializeField] private float ShiroSpawnDelay;
-    [SerializeField] private float ShiroSpawnDelaySet = 40f;
+    //[SerializeField] private float ShiroSpawnDelaySet = 40f;
     private int ShirospawnCount = 3;
     private bool ShirocanShoot;
     private bool ShirocanLaunch;
     [SerializeField] private float ShiroLaunchDelay;
-    [SerializeField] private float ShiroLaunchDelaySet = 7f;
+    //[SerializeField] private float ShiroLaunchDelaySet = 7f;
 
     [Header("Spawn Interval Settings")]
     [SerializeField] private float newPatternInterval = 2f;
@@ -54,20 +54,19 @@ public class ObstacleManager_SK : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        KuroShootSet = 3;
-        KuroShootCount = KuroShootSet;
+        KuroShootCount = PlayerPrefs.GetInt("KuroShootSet");
         KurocanShoot = true;
 
-        ShiroShootCount = 2;
+        ShiroShootCount = PlayerPrefs.GetInt("ShiroShootCount");
         ShirocanShoot = true;
         ShirocanLaunch = true;
 
         ShiroTrigger = false;
         KuroTrigger = false;
 
-        KuroSpawnDelay = KuroSpawnDelaySet;
-        ShiroSpawnDelay = ShiroSpawnDelaySet;
-        ShiroLaunchDelay = ShiroLaunchDelaySet;
+        KuroSpawnDelay = PlayerPrefs.GetFloat("KuroSpawnDelaySet");
+        ShiroSpawnDelay = PlayerPrefs.GetFloat("ShiroSpawnDelaySet");
+        ShiroLaunchDelay = PlayerPrefs.GetFloat("ShiroLaunchDelaySet");
 
         lastUpdatedTime = Time.time;
 
@@ -127,7 +126,7 @@ public class ObstacleManager_SK : MonoBehaviour
                 {
                     if(Time.time > lastUpdatedTime + 2 * newPatternInterval)
                     {
-                        if(KuroShootCount < 6)
+                        if(KuroShootCount < PlayerPrefs.GetInt("KuroShootSet") + 3 - PlayerPrefs.GetInt("Difficulty"))
                         {
                             KuroShootCount++;
                             lastUpdatedTime = Time.time;
@@ -154,7 +153,7 @@ public class ObstacleManager_SK : MonoBehaviour
                             }
                             else
                             {
-                                if (ShiroLaunchDelay > 3f)
+                                if (ShiroLaunchDelay > 4f)
                                 {
                                     ShiroLaunchDelay--;
                                     lastUpdatedTime = Time.time;
