@@ -11,6 +11,7 @@ public class PlayerMovement_SK : MonoBehaviour
     private InputProvider _inputProvider;
     private SpriteRenderer _spriteRenderer;
     public AudioSource _audioSource;
+    private TrailRenderer _trailRenderer;
 
     public GameObject shield;
     public GameObject shieldUI;
@@ -30,6 +31,8 @@ public class PlayerMovement_SK : MonoBehaviour
     [SerializeField] float dashCooldown = 1f;
     private bool isDashing;
     private bool canDash;
+    private Color32 trailStartColor = new Color32(144, 235, 254, 255);
+    private Color32 trailEndColor = new Color32(255, 255, 255, 0);
 
     [Header("Shield Settings")]
     [SerializeField] float shieldDuration = 0.7f;
@@ -66,6 +69,7 @@ public class PlayerMovement_SK : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _audioSource = GetComponent<AudioSource>();
+        _trailRenderer = GetComponent<TrailRenderer>();
 
         if (instance == null)
         {
@@ -100,6 +104,9 @@ public class PlayerMovement_SK : MonoBehaviour
         ImmortalTime = PlayerPrefs.GetFloat("ImmortalTimeSet");
 
         shieldUI.GetComponent<Animator>().speed = 0.9f / shieldCooldown;
+
+        trailOn();
+        trailOff();
     }
 
     private void FixedUpdate()
@@ -235,6 +242,7 @@ public class PlayerMovement_SK : MonoBehaviour
         _audioSource.clip = DashAudioClip;
         _audioSource.Play();
 
+        trailOn();
 
         if(PlayerPrefs.GetInt("isImmortalDash") == 1)
         {
@@ -244,6 +252,9 @@ public class PlayerMovement_SK : MonoBehaviour
         isDashing = true;
         _rigidbody.velocity = _inputProvider.MovementInput() * dashSpeed;
         yield return new WaitForSeconds(dashDuration);
+
+        trailOff();
+
         isDashing = false;
         gameObject.tag = "Player";
         yield return new WaitForSeconds(dashCooldown);
@@ -292,5 +303,18 @@ public class PlayerMovement_SK : MonoBehaviour
     {
         yield return new WaitForSeconds(stunDuration);
         isStunned = false;
+    }
+
+    private void trailOn()
+    {
+        _trailRenderer.startColor = trailStartColor;
+        _trailRenderer.endColor = trailEndColor;
+        _trailRenderer.startWidth = 0.8f;
+        _trailRenderer.endWidth = 0f;
+    }
+
+    private void trailOff()
+    {
+        _trailRenderer.startColor = trailEndColor;
     }
 }
