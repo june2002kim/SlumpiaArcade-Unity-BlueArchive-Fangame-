@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/* Script for managing player's movement using Unity's new InputSystem */
+
 public class PlayerMovement_SK : MonoBehaviour
 {
     public static PlayerMovement_SK instance;
@@ -21,14 +23,13 @@ public class PlayerMovement_SK : MonoBehaviour
     public bool isStunned;
     private bool isFacingRight;
 
-    [SerializeField] float moveSpeed = 8f;
     [SerializeField] float slowmoveSpeed = 4f;
     private float currentSpeed;
 
     [Header("Dash Settings")]
     [SerializeField] float dashSpeed = 25f;
-    [SerializeField] float dashDuration = 0.2f;
-    [SerializeField] float dashCooldown = 1f;
+    [SerializeField] float dashDuration;
+    [SerializeField] float dashCooldown;
     private bool isDashing;
     private bool canDash;
     private Color32 trailStartColor = new Color32(144, 235, 254, 255);
@@ -36,11 +37,11 @@ public class PlayerMovement_SK : MonoBehaviour
 
     [Header("Shield Settings")]
     [SerializeField] float shieldDuration = 0.7f;
-    [SerializeField] float shieldCooldown = 10f;
+    [SerializeField] float shieldCooldown;
     private bool canShield;
 
     [Header("CrowdControl Settings")]
-    [SerializeField] float ImmortalTime = 1f;
+    [SerializeField] float ImmortalTime;
     [SerializeField] float slowDuration = 2f;
     [SerializeField] float stunDuration = 3f;
 
@@ -51,6 +52,10 @@ public class PlayerMovement_SK : MonoBehaviour
 
     private void OnEnable()
     {
+        /*
+         New input system uses event for each situation
+         */
+
         _inputProvider = new InputProvider();
         _inputProvider.dashPerformed += startDash;
         _inputProvider.shieldPerformed += startShield;
@@ -59,6 +64,10 @@ public class PlayerMovement_SK : MonoBehaviour
 
     private void OnDisable()
     {
+        /*
+         New input system uses event for each situation
+         */
+
         _inputProvider.dashPerformed -= startDash;
         _inputProvider.shieldPerformed -= startShield;
         _inputProvider.Disable();
@@ -71,6 +80,7 @@ public class PlayerMovement_SK : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _trailRenderer = GetComponent<TrailRenderer>();
 
+        // Singleton
         if (instance == null)
         {
             instance = this;
@@ -85,6 +95,8 @@ public class PlayerMovement_SK : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // set basic values from 'PlayerPrefs'
+
         //isDead = false;
         isSlowed = false;
         isStunned = false;
@@ -105,7 +117,9 @@ public class PlayerMovement_SK : MonoBehaviour
 
         shieldUI.GetComponent<Animator>().speed = 0.9f / shieldCooldown;
 
+        // set trail for dash
         trailOn();
+        // turn trail off in common situation
         trailOff();
     }
 
@@ -113,38 +127,50 @@ public class PlayerMovement_SK : MonoBehaviour
     {
         if (isDashing || GameManager_SK.instance.isGameOver || isStunned)
         {
+            // prevent moving when player 'is dasing' or 'game is over' or 'is stunned'
             return;
         }
 
         if (isSlowed)
         {
+            // when player collides with slow bomb, slower movespeed
             currentSpeed = slowmoveSpeed;
             StartCoroutine("Slow");
         }
         
+        // players basic movement
         _rigidbody.velocity = _inputProvider.MovementInput() * currentSpeed;
 
+        // flipping sprite for left and right
         Flip();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // if player is 'immortal' or game is over, doesn't detect trigger
+
         if (this.tag != "Immortal" && !GameManager_SK.instance.isGameOver)
         {
             if (collision.tag == "Enemy")
             {
+                // when collides with 'Enemy', starts 'OnPlayerDamaged()'
                 GameManager_SK.instance.OnPlayerDamaged();
+                // also starts coroutine 'Immortal()' for invincible time
                 StartCoroutine("Immortal");
             }
 
             if (collision.tag == "Slow")
             {
+                // when collides with 'Slow', set 'isSlowed' to 'true'
+
                 //Debug.Log("is Slowed");
                 isSlowed = true;
             }
 
             if (collision.tag == "Stun")
             {
+                // when collides with 'Stun', set 'isStunned' to 'true', stops player's move and starts 'Stun()'
+
                 //Debug.Log("is Stunned");
                 isStunned = true;
                 _rigidbody.velocity = Vector2.zero;
@@ -155,6 +181,11 @@ public class PlayerMovement_SK : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        /*
+         Trigger Stay for staying inside bomb's explosion area
+        Note that rigidbody's 'NeverSleep' should be selected to detect every time
+         */
+
         if (this.tag != "Immortal" && !GameManager_SK.instance.isGameOver)
         {
             if (collision.tag == "Enemy")
@@ -181,6 +212,10 @@ public class PlayerMovement_SK : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        /*
+         Trigger Exit to detect getting out of bomb's explosion area
+         */
+
         if (this.tag != "Immortal" && !GameManager_SK.instance.isGameOver)
         {
             if (collision.tag == "Enemy")
@@ -207,6 +242,10 @@ public class PlayerMovement_SK : MonoBehaviour
 
     private void Flip()
     {
+        /*
+         Flipt player's sprite using localScale
+         */
+
         if((_inputProvider.MovementInput().x > 0 && !isFacingRight) || (_inputProvider.MovementInput().x < 0 && isFacingRight)){
             isFacingRight = !isFacingRight;
             Vector3 localScale = transform.localScale;
@@ -217,52 +256,85 @@ public class PlayerMovement_SK : MonoBehaviour
 
     private IEnumerator Immortal()
     {
+        /*
+         Invincible Time
+         */
+
         this.tag = "Immortal";
+        // makes player little bit transparent to notice it has been damaged
         _spriteRenderer.color = new Color32(255, 255, 255, 100);
+
         yield return new WaitForSeconds(ImmortalTime);
+
         _spriteRenderer.color = new Color32(255, 255, 255, 255);
         this.tag = "Player";
     }
 
     private void startDash(InputAction.CallbackContext context)
     {
+        /*
+         When dasing is possible, starts Dash
+         */
+
         if (canDash && !GameManager_SK.instance.isGameOver && !isStunned && !GameManager_SK.instance.isPaused)
         {
             StartCoroutine("Dash");
         }
         if (GameManager_SK.instance.isGameOver)
         {
+            // used dash button for restart button to makes it work also in Mobile Platform
             GameManager_SK.instance.restartGame();
         }
     }
 
     private IEnumerator Dash()
     {
+        /*
+         Dash
+         */
+
         //Debug.Log("Dashed");
+
+        // dash audio
         _audioSource.clip = DashAudioClip;
         _audioSource.Play();
 
+        // turn on trail
         trailOn();
 
         if(PlayerPrefs.GetInt("isImmortalDash") == 1)
         {
+            // If ability is 'ImmortalDash' let it be 'Immortal' when dashing
             gameObject.tag = "Immortal";
         }
+        // let dash impossible for cooldown
         canDash = false;
+        // prevent moving when dasing
         isDashing = true;
+
+        // dash
         _rigidbody.velocity = _inputProvider.MovementInput() * dashSpeed;
+
         yield return new WaitForSeconds(dashDuration);
 
+        // turn off trail
         trailOff();
 
         isDashing = false;
         gameObject.tag = "Player";
+
         yield return new WaitForSeconds(dashCooldown);
+
+        // let dash possible again
         canDash = true;
     }
 
     private void startShield(InputAction.CallbackContext context)
     {
+        /*
+         When shield is possible, starts Shield
+         */
+
         if (canShield && !GameManager_SK.instance.isGameOver && !GameManager_SK.instance.isPaused)
         {
             StartCoroutine("Shield");
@@ -271,14 +343,22 @@ public class PlayerMovement_SK : MonoBehaviour
 
     private IEnumerator Shield()
     {
+        /*
+         Shield
+         */
+
         //Debug.Log("Shield ON");
+
+        // shield audio
         _audioSource.clip = ShieldAudioClip;
         _audioSource.Play();
 
         gameObject.tag = "Immortal";
         shield.SetActive(true);
-        
+
+        // let shield impossible for cooldown
         canShield = false;
+        // showing shield UI's cooldown in screen
         shieldUI.GetComponent<Animator>().SetBool("isUsed", !canShield);
 
         yield return new WaitForSeconds(shieldDuration);
@@ -288,25 +368,41 @@ public class PlayerMovement_SK : MonoBehaviour
 
         yield return new WaitForSeconds(shieldCooldown);
 
+        // let shield possible again
         canShield = true;
+
         shieldUI.GetComponent<Animator>().SetBool("isUsed", !canShield);
     }
 
     public IEnumerator Slow()
     {
+        /*
+         Slow for 'slowDuration' and restore its original speed
+         */
+
         yield return new WaitForSeconds(slowDuration);
-        currentSpeed = moveSpeed;
+
+        currentSpeed = PlayerPrefs.GetFloat("moveSpeedSet");
         isSlowed = false;
     }
 
     public IEnumerator Stun()
     {
+        /*
+         Stun for 'stunDuration' and restore its movement
+         */
+
         yield return new WaitForSeconds(stunDuration);
+
         isStunned = false;
     }
 
     private void trailOn()
     {
+        /*
+         Set player's trail
+         */
+
         _trailRenderer.startColor = trailStartColor;
         _trailRenderer.endColor = trailEndColor;
         _trailRenderer.startWidth = 0.8f;
@@ -315,6 +411,10 @@ public class PlayerMovement_SK : MonoBehaviour
 
     private void trailOff()
     {
+        /*
+         Turn off player's trail by setting every color transparent
+         */
+
         _trailRenderer.startColor = trailEndColor;
     }
 }

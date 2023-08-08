@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/* Script for selecting game's difficulty using ToggleGroup in UI */
+
 public class DifficultySelect : MonoBehaviour
 {
     ToggleGroup toggleGroup;
@@ -16,6 +18,10 @@ public class DifficultySelect : MonoBehaviour
         PlayerPrefs.SetInt("Difficulty", 0);
         */
     }
+
+    /*
+     Change obstacle's spawning count or delay
+     */
 
     public void Normal(bool isOn)
     {

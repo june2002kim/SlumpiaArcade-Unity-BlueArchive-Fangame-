@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Script for Shiro's slow bomb */
+
 public class Bomb_slow : MonoBehaviour
 {
     [Header("Bomb Settings")]
@@ -37,6 +39,7 @@ public class Bomb_slow : MonoBehaviour
 
         yield return new WaitForSeconds(warnDuration);
 
+        // changing 'warningCircle's tag to "Slow", collision slows player
         warningCircle.gameObject.tag = "Slow";
         audioSource.Play();
 

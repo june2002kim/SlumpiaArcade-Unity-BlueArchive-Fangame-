@@ -163,7 +163,6 @@ GameObject:
   - component: {fileID: 7969090315615411727}
   - component: {fileID: 7969090315615411726}
   - component: {fileID: 7969090315615411721}
-  - component: {fileID: 7969090315615411720}
   m_Layer: 5
   m_Name: moreDash Toggle
   m_TagString: Untagged
@@ -273,23 +272,6 @@ MonoBehaviour:
       \uC120\uAE00\uB77C\uC2A4. \n\uD2B8\uB808\uC774\uB2DD\uC5D0 \uC775\uC219\uD55C
       \uC2A4\uBBF8\uB808\uC758 \uD798\uC774 \uC804\uD574\uC9C4\uB2E4.\n[\uCC29\uC6A9\uC2DC
       \uB354 \uC790\uC8FC \uB300\uC2DC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4]"
---- !u!114 &7969090315615411720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7969090315615411724}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92820e201c11fad4bbd1042632b0d1a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue:
-    isTyping: 0
-    portrait: {fileID: 0}
-    name: 
-    sentences: []
 --- !u!1 &7969090315697974658
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,7 +359,6 @@ GameObject:
   - component: {fileID: 7969090315789131131}
   - component: {fileID: 7969090315789131130}
   - component: {fileID: 7969090315789130373}
-  - component: {fileID: 7969090315789130372}
   m_Layer: 5
   m_Name: immortalDash Toggle
   m_TagString: Untagged
@@ -489,23 +470,6 @@ MonoBehaviour:
       \uC218 \uC788\uC744 \uC815\uB3C4\uC758 \uC218\uC900\uC774 \uB418\uC5C8\uB2E4.\n[\uCC29\uC6A9\uC2DC
       \uB300\uC2DC \uAC70\uB9AC\uAC00 \uC9E7\uC544\uC9C0\uC9C0\uB9CC \uB300\uC2DC\uD558\uB294
       \uC911\uC5D0\uB294 \uBB34\uC801\uC0C1\uD0DC\uAC00 \uB429\uB2C8\uB2E4.]"
---- !u!114 &7969090315789130372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7969090315789131128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92820e201c11fad4bbd1042632b0d1a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue:
-    isTyping: 0
-    portrait: {fileID: 0}
-    name: 
-    sentences: []
 --- !u!1 &7969090315821444101
 GameObject:
   m_ObjectHideFlags: 0
@@ -1158,7 +1122,6 @@ GameObject:
   - component: {fileID: 7969090316399533384}
   - component: {fileID: 7969090316399533387}
   - component: {fileID: 7969090316399533386}
-  - component: {fileID: 7969090316399533397}
   m_Layer: 5
   m_Name: speedUp Toggle
   m_TagString: Untagged
@@ -1267,23 +1230,6 @@ MonoBehaviour:
     - "\uC790\uC804\uAC70\uAC00 \uC5C6\uC5B4\uB3C4 \uC2DC\uB85C\uCF54\uB294 \uCDA9\uBD84\uD788
       \uBE60\uB985\uB2C8\uB2E4.\n[\uCC29\uC6A9\uC2DC \uC774\uB3D9\uC18D\uB3C4\uAC00
       \uC99D\uAC00\uD569\uB2C8\uB2E4.]"
---- !u!114 &7969090316399533397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7969090316399533385}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92820e201c11fad4bbd1042632b0d1a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue:
-    isTyping: 0
-    portrait: {fileID: 0}
-    name: 
-    sentences: []
 --- !u!1 &7969090316494738298
 GameObject:
   m_ObjectHideFlags: 0
@@ -1415,7 +1361,6 @@ GameObject:
   - component: {fileID: 7969090316676621051}
   - component: {fileID: 7969090316676621050}
   - component: {fileID: 7969090316676620805}
-  - component: {fileID: 7969090316676620804}
   m_Layer: 5
   m_Name: moreShield Toggle
   m_TagString: Untagged
@@ -1525,23 +1470,6 @@ MonoBehaviour:
       \uD2B9\uC218\uC81C\uC791\uB41C \uC2DC\uC2A4\uD130 \uBCA0\uC77C. \uB9C8\uB9AC\uC758
       \uAE30\uB3C4\uC758 \uD798\uC774 \uB2F4\uACA8 \uC788\uB294\uB4EF\uD558\uB2E4.\n[\uCC29\uC6A9\uC2DC
       \uBC30\uB9AC\uC5B4\uB97C \uB354 \uC790\uC8FC \uC0AC\uC6A9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.]"
---- !u!114 &7969090316676620804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7969090316676621048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92820e201c11fad4bbd1042632b0d1a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue:
-    isTyping: 0
-    portrait: {fileID: 0}
-    name: 
-    sentences: []
 --- !u!1 &7969090316681667071
 GameObject:
   m_ObjectHideFlags: 0
@@ -1628,7 +1556,6 @@ GameObject:
   - component: {fileID: 7969090316696094569}
   - component: {fileID: 7969090316696094568}
   - component: {fileID: 7969090316696094571}
-  - component: {fileID: 7969090316696094570}
   m_Layer: 5
   m_Name: healthRegen Toggle
   m_TagString: Untagged
@@ -1738,23 +1665,6 @@ MonoBehaviour:
       \uC804\uD574\uBC1B\uC740 \uB9C8\uC2A4\uD06C.\n[\uCC29\uC6A9\uC2DC  \uD53C\uD574\uAC00
       \uB450 \uBC30\uB85C \uB298\uC5B4\uB098\uC9C0\uB9CC \uC77C\uC815 \uC2DC\uAC04\uB3D9\uC548
       \uD53C\uD574\uB97C \uC785\uC9C0 \uC54A\uC73C\uBA74 \uCCB4\uB825\uC744 \uD68C\uBCF5\uD569\uB2C8\uB2E4.]"
---- !u!114 &7969090316696094570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7969090316696094574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92820e201c11fad4bbd1042632b0d1a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue:
-    isTyping: 0
-    portrait: {fileID: 0}
-    name: 
-    sentences: []
 --- !u!1 &7969090316698523746
 GameObject:
   m_ObjectHideFlags: 0
@@ -2150,7 +2060,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7969090317114035703
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2237,7 +2147,6 @@ GameObject:
   - component: {fileID: 7969090317210189924}
   - component: {fileID: 7969090317210189927}
   - component: {fileID: 7969090317210189926}
-  - component: {fileID: 7969090317210189921}
   m_Layer: 5
   m_Name: lessHit Toggle
   m_TagString: Untagged
@@ -2347,23 +2256,6 @@ MonoBehaviour:
       \uD558\uC5EC\uAE08 \uBBF8\uC720\uB97C \uD30C\uC545\uD558\uAE30 \uC5B4\uB835\uAC8C
       \uD569\uB2C8\uB2E4.\n[\uCC29\uC6A9\uC2DC \uD53C\uACA9 \uD6C4 \uBB34\uC801\uC2DC\uAC04\uC774
       \uB298\uC5B4\uB0A9\uB2C8\uB2E4.]"
---- !u!114 &7969090317210189921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7969090317210189925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92820e201c11fad4bbd1042632b0d1a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue:
-    isTyping: 0
-    portrait: {fileID: 0}
-    name: 
-    sentences: []
 --- !u!1 &7969090317310699010
 GameObject:
   m_ObjectHideFlags: 0
@@ -2465,7 +2357,6 @@ GameObject:
   - component: {fileID: 7969090317325304664}
   - component: {fileID: 7969090317325304667}
   - component: {fileID: 7969090317325304666}
-  - component: {fileID: 7969090317325304677}
   m_Layer: 5
   m_Name: farDash Toggle
   m_TagString: Untagged
@@ -2574,23 +2465,6 @@ MonoBehaviour:
     - "\uB5A0\uB4E4\uC11D\uD558\uACE0 \uC990\uAC70\uC6B4 \uC77C\uC744 \uD5A5\uD574\uC120
       \uB204\uAD6C\uBCF4\uB2E4 \uBE68\uB9AC \uB2EC\uB824\uAC00\uB294 \uC544\uC2A4\uB098\uC758
       \uB9AC\uBCF8.\n[\uCC29\uC6A9\uC2DC \uB300\uC2DC \uAC70\uB9AC\uAC00 \uB298\uC5B4\uB0A9\uB2C8\uB2E4.]"
---- !u!114 &7969090317325304677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7969090317325304665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92820e201c11fad4bbd1042632b0d1a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue:
-    isTyping: 0
-    portrait: {fileID: 0}
-    name: 
-    sentences: []
 --- !u!1 &7969090317345736253
 GameObject:
   m_ObjectHideFlags: 0

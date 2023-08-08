@@ -6161,17 +6161,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2006624868}
     m_Modifications:
-    - target: {fileID: 7969090317114035700, guid: 97cfea9e0d8e12e4897a3b5cdae3ce44, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7969090317310699010, guid: 97cfea9e0d8e12e4897a3b5cdae3ce44, type: 3}
       propertyPath: m_Name
       value: Ability Panel
-      objectReference: {fileID: 0}
-    - target: {fileID: 7969090317310699010, guid: 97cfea9e0d8e12e4897a3b5cdae3ce44, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7969090317310699021, guid: 97cfea9e0d8e12e4897a3b5cdae3ce44, type: 3}
       propertyPath: m_Pivot.x

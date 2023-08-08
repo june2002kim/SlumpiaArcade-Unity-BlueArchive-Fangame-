@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Script for Shiro's homing(stun) bomb */
+
 public class Bomb_homing : MonoBehaviour
 {
     [Header("Bomb Settings")]
@@ -37,6 +39,7 @@ public class Bomb_homing : MonoBehaviour
 
         yield return new WaitForSeconds(warnDuration);
 
+        // changing 'warningCircle's tag to "Stun", collision stuns player
         warningCircle.gameObject.tag = "Stun";
         audioSource.Play();
 

@@ -4,14 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/* Script for managing dialogue */
+
 public class DialogueManager : MonoBehaviour
 {
     private Queue<string> sentences;
 
-    public GameObject dialogueBox;
-    public TMP_Text nameText;
-    public TMP_Text dialogueText;
-    public Image portraitImage;
+    public GameObject dialogueBox;                      // ability description panel where dialogue is going to be shown
+    public TMP_Text nameText;                           // ability description panel's name component
+    public TMP_Text dialogueText;                       // ability description panel's content component
+    public Image portraitImage;                         // ability description panel's image component
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +23,11 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
+        /*
+         Set ability description's components to parameter 'dialogue' and starts dialogue
+         */
+
+        // show ability description panel when dialogue starts
         dialogueBox.SetActive(true);
 
         portraitImage.sprite = dialogue.portrait;
@@ -45,6 +52,10 @@ public class DialogueManager : MonoBehaviour
 
     public void TypeNextSentence()
     {
+        /*
+         If there's left sentence, add sentence to ability description panel's content each letter in order by corountine
+         */
+
         if (sentences.Count == 0)
         {
             EndDialogue();
@@ -59,6 +70,10 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextSentence()
     {
+        /*
+         If there's left sentence, add sentence to ability description panel's content at once
+         */
+
         if (sentences.Count == 0)
         {
             EndDialogue();
@@ -71,6 +86,10 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator TypeSentence (string sentence)
     {
+        /*
+         add sentence's each letter to ability description panel in order
+         */
+
         dialogueText.text = "";
         foreach(char letter in sentence.ToCharArray())
         {

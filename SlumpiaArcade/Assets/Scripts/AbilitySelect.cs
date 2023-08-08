@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
+/* Script for functions selecting ability using ToggleGroup in UI */
+
 public class AbilitySelect : MonoBehaviour
 {
     ToggleGroup toggleGroup;
@@ -29,18 +31,20 @@ public class AbilitySelect : MonoBehaviour
         */
     }
 
-    
+    /*
+     Selecting ability -> Set 'PlayerPrefs' value to change player's ability 
+     */
 
     public void healthUp(bool isOn)
     {
         if (isOn)
         {
-            Debug.Log("Select : Health UP");
+            //Debug.Log("Select : Health UP");
             PlayerPrefs.SetInt("healthPointSet", 4);
         }
         else
         {
-            Debug.Log("Discard : Health UP");
+            //Debug.Log("Discard : Health UP");
             PlayerPrefs.SetInt("healthPointSet", 3);
         }
     }
@@ -49,12 +53,12 @@ public class AbilitySelect : MonoBehaviour
     {
         if (isOn)
         {
-            Debug.Log("Select : more Dash");
+            //Debug.Log("Select : more Dash");
             PlayerPrefs.SetFloat("dashCooldownSet", 0.5f);
         }
         else
         {
-            Debug.Log("Discard : more Dash");
+            //Debug.Log("Discard : more Dash");
             PlayerPrefs.SetFloat("dashCooldownSet", 1f);
         } 
     }
@@ -63,12 +67,12 @@ public class AbilitySelect : MonoBehaviour
     {
         if (isOn)
         {
-            Debug.Log("Select : more Shield");
+            //Debug.Log("Select : more Shield");
             PlayerPrefs.SetFloat("shieldCooldownSet", 5f);
         }
         else
         {
-            Debug.Log("Discard : more Shield");
+            //Debug.Log("Discard : more Shield");
             PlayerPrefs.SetFloat("shieldCooldownSet", 10f);
         }
     }
@@ -77,28 +81,32 @@ public class AbilitySelect : MonoBehaviour
     {
         if (isOn)
         {
-            Debug.Log("Select : health Regen");
+            //Debug.Log("Select : health Regen");
             PlayerPrefs.SetInt("isHealthRegen", 1);
         }
         else
         {
-            Debug.Log("Discard : health Regen");
+            //Debug.Log("Discard : health Regen");
             PlayerPrefs.SetInt("isHealthRegen", 0);
         }
     }
 
     public void immortalDash(bool isOn)
     {
+        /*
+         Dilemma : shortening dash length by reducing dashDuration time makes immortal time shorter too
+         */
+
         if (isOn)
         {
-            Debug.Log("Select : immortal Dash");
+            //Debug.Log("Select : immortal Dash");
             PlayerPrefs.SetInt("isImmortalDash", 1);
             PlayerPrefs.SetFloat("dashDurationSet", 0.08f);
             //PlayerPrefs.SetFloat("dashSpeedSet", 20f);
         }
         else
         {
-            Debug.Log("Discard : immortal Dash");
+            //Debug.Log("Discard : immortal Dash");
             PlayerPrefs.SetInt("isImmortalDash", 0);
             PlayerPrefs.SetFloat("dashDurationSet", 0.12f);
             //PlayerPrefs.SetFloat("dashSpeedSet", 25f);
@@ -109,12 +117,12 @@ public class AbilitySelect : MonoBehaviour
     {
         if (isOn)
         {
-            Debug.Log("Select : speed Up");
+            //Debug.Log("Select : speed Up");
             PlayerPrefs.SetFloat("moveSpeedSet", 11f);
         }
         else
         {
-            Debug.Log("Discard : speed Up");
+            //Debug.Log("Discard : speed Up");
             PlayerPrefs.SetFloat("moveSpeedSet", 8f);
         }
     }
@@ -122,12 +130,12 @@ public class AbilitySelect : MonoBehaviour
     {
         if (isOn)
         {
-            Debug.Log("Select : far Dash");
+            //Debug.Log("Select : far Dash");
             PlayerPrefs.SetFloat("dashDurationSet", 0.2f);
         }
         else
         {
-            Debug.Log("Discard : far Dash");
+            //Debug.Log("Discard : far Dash");
             PlayerPrefs.SetFloat("dashDurationSet", 0.12f);
         }
     }
@@ -136,12 +144,12 @@ public class AbilitySelect : MonoBehaviour
     {
         if (isOn)
         {
-            Debug.Log("Select : less Hit");
+            //Debug.Log("Select : less Hit");
             PlayerPrefs.SetFloat("ImmortalTimeSet", 2f);
         }
         else
         {
-            Debug.Log("Discard : less Hit");
+            //Debug.Log("Discard : less Hit");
             PlayerPrefs.SetFloat("ImmortalTimeSet", 1f);
         }
     }
